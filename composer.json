@@ -21,7 +21,7 @@
     ],
     "require": {
         "php": "^8.1",
-        "kitloong/laravel-migrations-generator": "^6.0",
+        "kitloong/laravel-migrations-generator": "^7.0",
         "illuminate/console": "^9.0|^10.0|^11.0|^12.0|^13.0",
         "illuminate/database": "^9.0|^10.0|^11.0|^12.0|^13.0",
         "illuminate/filesystem": "^9.0|^10.0|^11.0|^12.0|^13.0",
