@@ -53,16 +53,30 @@ class ModelGenerator extends BaseGenerator
     {
         $methods = [];
 
-        // 1. belongsTo — FKs on THIS table pointing to other tables
-        foreach ($this->getOutgoingFks($table) as $fk) {
+        // 1. Try real FK constraints first
+        $outgoing = $this->getOutgoingFks($table);
+        $incoming = $this->getIncomingFks($table);
+
+        // 2. If no constraints found, fall back to naming convention
+        if (empty($outgoing)) {
+            $outgoing = $this->guessOutgoingFks($table, $columns);
+        }
+
+        foreach ($outgoing as $fk) {
             $methods[] = $this->buildBelongsTo($fk);
         }
 
-        // 2. hasMany / belongsToMany — other tables referencing THIS table
-        foreach ($this->getIncomingFks($table) as $fk) {
+        foreach ($incoming as $fk) {
             if ($this->isPivotTable($fk['from_table'])) {
                 $methods[] = $this->buildBelongsToMany($fk, $table);
             } else {
+                $methods[] = $this->buildHasMany($fk);
+            }
+        }
+
+        // 3. If no real incoming FKs, guess hasMany from other tables' _id columns
+        if (empty($incoming)) {
+            foreach ($this->guessIncomingFks($table, $columns) as $fk) {
                 $methods[] = $this->buildHasMany($fk);
             }
         }
@@ -72,6 +86,96 @@ class ModelGenerator extends BaseGenerator
         }
 
         return "\n" . implode("\n\n", $methods) . "\n";
+    }
+
+    /**
+     * Guess belongsTo by scanning columns named like "something_id"
+     * and checking if a table named "somethings" exists.
+     */
+    private function guessOutgoingFks(string $table, array $columns): array
+    {
+        $existingTables = $this->getAllTables();
+        $fks = [];
+
+        foreach ($columns as $col) {
+            $field = $col->Field;
+
+            if (!str_ends_with($field, '_id')) {
+                continue;
+            }
+
+            // e.g. "department_id" -> guess table "departments"
+            $guessedBase = preg_replace('/_id$/', '', $field);
+            $guessedTable = Str::plural($guessedBase);
+
+            if (in_array($guessedTable, $existingTables)) {
+                $fks[] = [
+                    'fk_column' => $field,
+                    'referenced_table' => $guessedTable,
+                    'referenced_column' => 'id',
+                ];
+            }
+        }
+
+        return $fks;
+    }
+
+    /**
+     * Guess hasMany by scanning all other tables for a column named
+     * "{singular_of_this_table}_id".
+     */
+    private function guessIncomingFks(string $table, array $columns): array
+    {
+        $existingTables = $this->getAllTables();
+        $fks = [];
+
+        // Check both singular and plural forms of the expected FK column
+        $singular = Str::singular($table);   // e.g. "voucher"
+        $expectedCols = array_unique([
+            $singular . '_id',                   // "voucher_id"
+            Str::plural($singular) . '_id',      // "vouchers_id" (rare but safe)
+            $table . '_id',                      // exact table name + _id
+        ]);
+
+        foreach ($existingTables as $otherTable) {
+            if ($otherTable === $table) {
+                continue;
+            }
+
+            try {
+                $otherColumns = DB::select("SHOW COLUMNS FROM `{$otherTable}`");
+            } catch (\Throwable) {
+                continue;
+            }
+
+            $fields = collect($otherColumns)->pluck('Field');
+
+            foreach ($expectedCols as $expectedCol) {
+                if ($fields->contains($expectedCol)) {
+                    $fks[] = [
+                        'from_table' => $otherTable,
+                        'fk_column' => $expectedCol,
+                        'referenced_column' => 'id',
+                    ];
+                    break; // found one match for this table, move on
+                }
+            }
+        }
+
+        return $fks;
+    }
+
+    private function getAllTables(): array
+    {
+        $db = config('database.connections.' . config('database.default') . '.database');
+        $raw = DB::select('SHOW TABLES');
+        $key = 'Tables_in_' . $db;
+
+        return collect($raw)
+            ->pluck($key)
+            ->reject(fn($t) => in_array($t, config('prism-init.exclude_tables', ['migrations'])))
+            ->values()
+            ->toArray();
     }
 
     /**
@@ -319,4 +423,5 @@ PHP;
 
         return $lines->isEmpty() ? '[]' : "[\n" . $lines->join(",\n") . ",\n    ]";
     }
+
 }
