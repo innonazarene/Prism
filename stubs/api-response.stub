@@ -1,0 +1,54 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Traits;
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Pagination\LengthAwarePaginator;
+
+/**
+ * Standardised JSON response envelope for all API controllers.
+ *
+ * Success  : { success: true,  data: T,    message: string, errors: null   }
+ * Error    : { success: false, data: null, message: string, errors: object }
+ * Paginated: { success: true,  data: T[],  meta: {...},     message, errors: null }
+ */
+trait ApiResponse
+{
+    public function successResponse(mixed $data, string $message = 'Success.', int $status = 200): JsonResponse
+    {
+        return response()->json([
+            'success' => true,
+            'data'    => $data,
+            'message' => $message,
+            'errors'  => null,
+        ], $status);
+    }
+
+    public function errorResponse(string $message, mixed $errors = null, int $status = 400): JsonResponse
+    {
+        return response()->json([
+            'success' => false,
+            'data'    => null,
+            'message' => $message,
+            'errors'  => $errors,
+        ], $status);
+    }
+
+    public function paginatedResponse(LengthAwarePaginator $paginator, string $message = 'Success.'): JsonResponse
+    {
+        return response()->json([
+            'success' => true,
+            'data'    => $paginator->items(),
+            'meta'    => [
+                'current_page' => $paginator->currentPage(),
+                'last_page'    => $paginator->lastPage(),
+                'per_page'     => $paginator->perPage(),
+                'total'        => $paginator->total(),
+            ],
+            'message' => $message,
+            'errors'  => null,
+        ]);
+    }
+}

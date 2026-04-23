@@ -1,0 +1,42 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ Namespace }};
+
+use App\Http\Controllers\Controller;
+use App\Traits\ApiResponse;
+use {{ RequestNs }}\Store{{ ClassName }}Request;
+use {{ RequestNs }}\Update{{ ClassName }}Request;{{ ServiceImport }}{{ ResourceImport }}
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
+class {{ ClassName }}Controller extends Controller
+{
+    use ApiResponse;
+{{ Constructor }}
+    public function index(Request $request): JsonResponse
+    {
+        {{ IndexReturn }}
+    }
+
+    public function store(Store{{ ClassName }}Request $request): JsonResponse
+    {
+        {{ StoreReturn }}
+    }
+
+    public function show(int $id): JsonResponse
+    {
+        {{ ShowReturn }}
+    }
+
+    public function update(Update{{ ClassName }}Request $request, int $id): JsonResponse
+    {
+        {{ UpdateReturn }}
+    }
+
+    public function destroy(int $id): JsonResponse
+    {
+        {{ DestroyBody }}
+    }
+}

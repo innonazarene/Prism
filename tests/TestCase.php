@@ -1,10 +1,25 @@
 <?php
 
-namespace Tests;
+declare(strict_types=1);
 
-use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+namespace Innonazarene\PrismInit\Tests;
+
+use Innonazarene\PrismInit\PrismServiceProvider;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication;
+    protected function getPackageProviders($app): array
+    {
+        return [PrismServiceProvider::class];
+    }
+
+    protected function getEnvironmentSetUp($app): void
+    {
+        $app['config']->set('database.default', 'testing');
+        $app['config']->set('database.connections.testing', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+        ]);
+    }
 }
