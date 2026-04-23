@@ -7,7 +7,6 @@
 [![License](https://img.shields.io/github/license/innonazarene/prism-init)](LICENSE)
 
 **Prism Init** scaffolds a complete, convention-following backend API from your existing database in one command.
-Designed around the **HRMS Developer Guidelines** — but useful for any Laravel project.
 
 ---
 
