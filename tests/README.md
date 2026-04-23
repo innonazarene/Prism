@@ -1,10 +1,10 @@
 # Prism Init
 
-[![CI](https://github.com/innonazarene/prism-init/actions/workflows/ci.yml/badge.svg)](https://github.com/innonazarene/prism-init/actions)
+[![CI](https://github.com/innonazarene/prism/actions/workflows/ci.yml/badge.svg)](https://github.com/innonazarene/prism/actions)
 [![Latest Version](https://img.shields.io/packagist/v/innonazarene/prism-init.svg)](https://packagist.org/packages/innonazarene/prism-init)
-[![PHP](https://img.shields.io/badge/PHP-8.1%2B-blue)](https://php.net)
-[![Laravel](https://img.shields.io/badge/Laravel-9--13-red)](https://laravel.com)
-[![License](https://img.shields.io/github/license/innonazarene/prism-init)](LICENSE)
+[![PHP](https://img.shields.io/packagist/php-v/innonazarene/prism-init)](https://php.net)
+[![Laravel](https://img.shields.io/badge/Laravel-9--12-red)](https://laravel.com)
+[![License](https://img.shields.io/packagist/l/innonazarene/prism-init)](LICENSE)
 
 **Prism Init** scaffolds a complete, convention-following backend API from your existing database in one command.
 Designed around the **HRMS Developer Guidelines** — but useful for any Laravel project.
@@ -56,7 +56,7 @@ Designed around the **HRMS Developer Guidelines** — but useful for any Laravel
 | | |
 |---|---|
 | PHP | ^8.1 |
-| Laravel | ^9 \| ^10 \| ^11 \| ^12 \| ^13 |
+| Laravel | ^9 \| ^10 \| ^11 \| ^12 |
 
 ---
 
@@ -176,8 +176,8 @@ Available stubs:
 | `model.stub` | Eloquent model |
 | `service.stub` | Service class |
 | `controller.stub` | API controller |
-| `Store-request.stub` | Store Form Request |
-| `Update-request.stub` | Update Form Request |
+| `store-request.stub` | Store Form Request |
+| `update-request.stub` | Update Form Request |
 | `resource.stub` | API Resource |
 | `policy.stub` | Policy |
 | `api-response.stub` | `ApiResponse` trait |
@@ -213,12 +213,6 @@ git push && open PR
 ```
 
 ---
-
-[![CI](https://github.com/innonazarene/prism/actions/workflows/ci.yml/badge.svg)](...)
-[![Latest Version](https://img.shields.io/packagist/v/innonazarene/prism-init)](...)
-[![PHP Version](https://img.shields.io/packagist/php-v/innonazarene/prism-init)](...)
-[![License](https://img.shields.io/packagist/l/innonazarene/prism-init)](...)
-
 
 ## License
 
