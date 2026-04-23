@@ -71,10 +71,15 @@ jobs:
             "illuminate/database:${{ matrix.laravel }}" \
             "illuminate/filesystem:${{ matrix.laravel }}" \
             "illuminate/support:${{ matrix.laravel }}" \
+            --no-interaction --no-update
+
+          composer require \
             "orchestra/testbench:${{ matrix.testbench }}" \
             "phpunit/phpunit:${{ matrix.phpunit }}" \
-            --no-interaction --no-update
-          composer update --prefer-dist --no-interaction --no-progress
+            --dev --no-interaction --no-update
+
+          composer update --prefer-dist --no-interaction --no-progress \
+            --audit-format=plain
 
       - name: Run tests
         run: vendor/bin/phpunit

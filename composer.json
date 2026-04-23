@@ -3,36 +3,64 @@
     "description": "Laravel Artisan command to scaffold models, services, controllers, requests, resources, policies and API routes from your database.",
     "type": "library",
     "license": "MIT",
-    "keywords": ["laravel","artisan","scaffolding","code-generator","backend","api","rest","php"],
-    "authors": [{"name": "innonazarene","homepage": "https://github.com/innonazarene"}],
+    "keywords": [
+        "laravel",
+        "artisan",
+        "scaffolding",
+        "code-generator",
+        "backend",
+        "api",
+        "rest",
+        "php"
+    ],
+    "authors": [
+        {
+            "name": "innonazarene",
+            "homepage": "https://github.com/innonazarene"
+        }
+    ],
     "require": {
         "php": "^8.1",
-        "illuminate/console":    "^9.0|^10.0|^11.0|^12.0|^13.0",
-        "illuminate/database":   "^9.0|^10.0|^11.0|^12.0|^13.0",
+        "illuminate/console": "^9.0|^10.0|^11.0|^12.0|^13.0",
+        "illuminate/database": "^9.0|^10.0|^11.0|^12.0|^13.0",
         "illuminate/filesystem": "^9.0|^10.0|^11.0|^12.0|^13.0",
-        "illuminate/support":    "^9.0|^10.0|^11.0|^12.0|^13.0"
+        "illuminate/support": "^9.0|^10.0|^11.0|^12.0|^13.0"
     },
     "require-dev": {
         "orchestra/testbench": "^7.0|^8.0|^9.0|^10.0",
-        "phpunit/phpunit":     "^9.0|^10.0|^11.0"
+        "phpunit/phpunit": "^9.0|^10.0|^11.0"
     },
     "suggest": {
         "kitloong/laravel-migrations-generator": "Required for migration generation (^6.0)",
-        "orangehill/iseed":                      "Required for seeding (^3.0)",
-        "krlove/eloquent-model-generator":       "Required for model generation (^2.0)"
+        "orangehill/iseed": "Required for seeding (^3.0)",
+        "krlove/eloquent-model-generator": "Required for model generation (^2.0)"
     },
     "autoload": {
-        "psr-4": {"Innonazarene\\PrismInit\\": "src/"}
+        "psr-4": {
+            "Innonazarene\\PrismInit\\": "src/"
+        }
     },
     "autoload-dev": {
-        "psr-4": {"Innonazarene\\PrismInit\\Tests\\": "tests/"}
+        "psr-4": {
+            "Innonazarene\\PrismInit\\Tests\\": "tests/"
+        }
     },
     "extra": {
         "laravel": {
-            "providers": ["Innonazarene\\PrismInit\\PrismServiceProvider"]
+            "providers": [
+                "Innonazarene\\PrismInit\\PrismServiceProvider"
+            ]
         }
     },
-    "config": {"sort-packages": true},
+    "config": {
+        "sort-packages": true,
+        "audit": {
+            "ignore": [
+                "PKSA-8qx3-n5y5-vvnd",
+                "PKSA-w7xr-vk7n-rstm"
+            ]
+        }
+    },
     "minimum-stability": "stable",
     "prefer-stable": true
 }
