@@ -189,8 +189,7 @@ Available stubs:
 | Package | Purpose |
 |---|---|
 | [kitloong/laravel-migrations-generator](https://github.com/kitloong/laravel-migrations-generator) | Generate migrations from existing DB |
-| [orangehill/iseed](https://github.com/orangehill/iseed) | Generate seeders from live data |
-| [krlove/eloquent-model-generator](https://github.com/krlove/eloquent-model-generator) | Generate Eloquent models with relationships |
+| [orangehill/iseed](https://github.com/orangehill/iseed) | Generate seeders from live data |models with relationships |
 
 ---
 
