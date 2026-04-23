@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace {{ Namespace }};
 
 use App\Models\{{ ClassName }}\{{ ClassName }};
-use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class {{ ClassName }}Policy
 {
-    use HandlesAuthorization;
-
     public function viewAny(Authenticatable $user): bool
     {
         return true;
