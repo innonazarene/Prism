@@ -55,6 +55,20 @@ jobs:
             testbench: '10.*'
             phpunit: '^11.0'
 
+          # Laravel 13 — PHP 8.3, 8.4 & 8.5
+          - php: '8.3'
+            laravel: '13.*'
+            testbench: '11.*'
+            phpunit: '^11.0'
+          - php: '8.4'
+            laravel: '13.*'
+            testbench: '11.*'
+            phpunit: '^11.0'
+          - php: '8.5'
+            laravel: '13.*'
+            testbench: '11.*'
+            phpunit: '^11.0'
+
     steps:
       - uses: actions/checkout@v5
 
