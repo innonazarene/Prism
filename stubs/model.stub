@@ -15,4 +15,5 @@ class {{ ClassName }} extends Model
 
     protected $casts = {{ Casts }};
     {{ TimestampsLine }}
+    {{ Relationships }}
 }
