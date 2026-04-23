@@ -10,23 +10,13 @@ class Update{{ ClassName }}Request extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // TODO: replace with a Policy check
+        return true;
     }
 
-    /**
-     * Validation rules for updating a {{ ClassName }}.
-     *
-     * On update:
-     *  - Wrap every rule with 'sometimes' so only sent fields are validated.
-     *  - Add ignore() to unique rules: Rule::unique('{table}','field')->ignore($this->route('{id}'))
-     *  - Primary key / employee_id MUST NOT be updatable — omit it entirely.
-     *
-     * @return array<string, mixed>
-     */
     public function rules(): array
     {
         return [
-            // TODO: define your rules here using 'sometimes'
+{{ Rules }}
         ];
     }
 }

@@ -14,13 +14,13 @@
 
 | Artifact | Path (grouped, default) |
 |---|---|
-| Eloquent Model | `app/Models/Employee.php` |
-| Service | `app/Services/EmployeeService.php` |
+| Eloquent Model | `app/Models/Employee/Employee.php` |
+| Service | `app/Services/Employee/EmployeeService.php` |
 | Controller | `app/Http/Controllers/Api/V1/Employee/EmployeeController.php` |
 | Store Request | `app/Http/Requests/Employee/StoreEmployeeRequest.php` |
 | Update Request | `app/Http/Requests/Employee/UpdateEmployeeRequest.php` |
 | API Resource | `app/Http/Resources/Employee/EmployeeResource.php` |
-| Policy | `app/Policies/EmployeePolicy.php` |
+| Policy | `app/Policies/Employee/EmployeePolicy.php` |
 | API Routes | `routes/api.php` — `Route::apiResource('employees', …)` |
 
 **Plus, once:**
@@ -40,11 +40,11 @@
 - Timestamps: `created_at`, `updated_at` on every model
 
 ### PHP / Laravel (3.3.2)
-- **Models**: `PascalCase` singular, `$fillable`, `$casts`, `SoftDeletes`
+- **Models**: `PascalCase` singular, `$fillable`, `$casts`, `SoftDeletes` — columns auto-populated from DB
 - **Controllers**: thin — validate → delegate to Service → return Resource
-- **Services**: all business logic inside `DB::transaction()` where needed
-- **Requests**: `Store{Model}Request` / `Update{Model}Request` with commented validation guidelines
-- **Resources**: `{Model}Resource` shaping JSON output
+- **Services**: all business logic inside `DB::transaction()` where needed, `list()` returns paginated results
+- **Requests**: `Store{Model}Request` / `Update{Model}Request` — validation rules inferred from DB column types
+- **Resources**: `{Model}Resource` — all fields auto-populated from DB columns
 - **Policies**: `{Model}Policy` with all standard gates stubbed
 - **Response envelope**: consistent `{ success, data, message, errors }` via `ApiResponse` trait
 
@@ -55,7 +55,7 @@
 | | |
 |---|---|
 | PHP | ^8.1 |
-| Laravel | ^9 \| ^10 \| ^11 \| ^12 \| ^13 |
+| Laravel | ^9 \| ^10 \| ^11 \| ^12 |
 
 ---
 
@@ -65,7 +65,7 @@
 composer require innonazarene/prism-init --dev
 ```
 
-Publish the config (recommended):
+Publish the config if you want to customise defaults:
 
 ```bash
 php artisan vendor:publish --tag=prism-init-config
@@ -125,6 +125,38 @@ php artisan prism:init --no-soft-deletes --skip-policies
 
 Given a `departments` table, Prism Init produces:
 
+**`app/Models/Department/Department.php`**
+```php
+class Department extends Model
+{
+    use SoftDeletes;
+
+    protected $table = 'departments';
+
+    protected $fillable = [
+        'name',
+        'code',
+        'description',
+    ];
+
+    protected $casts = [
+        'deleted_at' => 'datetime',
+    ];
+}
+```
+
+**`app/Services/Department/DepartmentService.php`**
+```php
+public function list(array $filters = []): LengthAwarePaginator
+{
+    $perPage = isset($filters['per_page']) ? (int) $filters['per_page'] : 15;
+
+    return Department::query()
+        ->latest()
+        ->paginate($perPage);
+}
+```
+
 **`app/Http/Controllers/Api/V1/Department/DepartmentController.php`**
 ```php
 class DepartmentController extends Controller
@@ -142,6 +174,33 @@ class DepartmentController extends Controller
     }
 
     // store / show / update / destroy …
+}
+```
+
+**`app/Http/Requests/Department/StoreDepartmentRequest.php`**
+```php
+public function rules(): array
+{
+    return [
+        'name'        => 'required|string|max:255',
+        'code'        => 'required|string|max:50',
+        'description' => 'sometimes|nullable|string',
+    ];
+}
+```
+
+**`app/Http/Resources/Department/DepartmentResource.php`**
+```php
+public function toArray(Request $request): array
+{
+    return [
+        'id'          => $this->id,
+        'name'        => $this->name,
+        'code'        => $this->code,
+        'description' => $this->description,
+        'created_at'  => $this->created_at,
+        'updated_at'  => $this->updated_at,
+    ];
 }
 ```
 
@@ -183,13 +242,14 @@ Available stubs:
 
 ---
 
-## Third-Party Packages Used
+## Optional Packages
+
+Prism Init detects these packages at runtime. If installed, they are used automatically — if not, the step is skipped with an install hint.
 
 | Package | Purpose |
 |---|---|
 | [kitloong/laravel-migrations-generator](https://github.com/kitloong/laravel-migrations-generator) | Generate migrations from existing DB |
 | [orangehill/iseed](https://github.com/orangehill/iseed) | Generate seeders from live data |
-| [krlove/eloquent-model-generator](https://github.com/krlove/eloquent-model-generator) | Generate Eloquent models with relationships |
 
 ---
 

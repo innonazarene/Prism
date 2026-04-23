@@ -9,9 +9,12 @@ class ServiceGenerator extends BaseGenerator
     public function generate(string $className): string
     {
         $content = $this->render($this->getStub('service'), [
+            'Namespace' => "App\\Services\\{$className}",
             'ClassName' => $className,
         ]);
-        $path = app_path("Services/{$className}Service.php");
+
+        $dir  = app_path("Services/{$className}");
+        $path = "{$dir}/{$className}Service.php";
         $this->write($path, $content, true);
         return $path;
     }

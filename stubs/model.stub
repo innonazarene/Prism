@@ -2,27 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Models;
+namespace {{ Namespace }};
 
 use Illuminate\Database\Eloquent\Model;{{ SoftDeletesUse }}
 
 class {{ ClassName }} extends Model
-{{{ SoftDeletesTrait }}
+{
+    {{ SoftDeletesTrait }}
     protected $table = '{{ tableName }}';
 
-    /**
-     * The attributes that are mass assignable.
-     * TODO: populate with your column names
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [];
+    protected $fillable = {{ Fillable }};
 
-    /**
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',{{ DeletedAtCast }}
-    ];{{ TimestampsLine }}
+    protected $casts = {{ Casts }};
+    {{ TimestampsLine }}
 }
