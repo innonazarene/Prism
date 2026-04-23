@@ -26,6 +26,8 @@ class PrismServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/prism-init.php', 'prism-init');
+        if (file_exists($config = __DIR__ . '/../config/prism-init.php')) {
+            $this->mergeConfigFrom($config, 'prism-init');
+        }
     }
 }
