@@ -3,7 +3,7 @@
 [![CI](https://github.com/innonazarene/prism-init/actions/workflows/ci.yml/badge.svg)](https://github.com/innonazarene/prism-init/actions)
 [![Latest Version](https://img.shields.io/packagist/v/innonazarene/prism-init.svg)](https://packagist.org/packages/innonazarene/prism-init)
 [![PHP](https://img.shields.io/badge/PHP-8.1+-777BB4)](https://php.net)
-[![Laravel](https://img.shields.io/badge/Laravel-9--12-FF2D20)](https://laravel.com)
+[![Laravel](https://img.shields.io/badge/Laravel-10--13-FF2D20)](https://laravel.com)
 [![License](https://img.shields.io/github/license/innonazarene/prism-init)](https://github.com/innonazarene/prism-init/blob/main/LICENSE)
 
 **Prism Init** scaffolds a complete, convention-following backend API from your existing database in one command.
@@ -56,7 +56,7 @@
 | | |
 |---|---|
 | PHP | ^8.1 |
-| Laravel | ^9 \| ^10 \| ^11 \| ^12 |
+| Laravel | ^10 \| ^11 \| ^12 |
 
 ---
 
