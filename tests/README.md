@@ -214,6 +214,12 @@ git push && open PR
 
 ---
 
+[![CI](https://github.com/innonazarene/prism/actions/workflows/ci.yml/badge.svg)](...)
+[![Latest Version](https://img.shields.io/packagist/v/innonazarene/prism-init)](...)
+[![PHP Version](https://img.shields.io/packagist/php-v/innonazarene/prism-init)](...)
+[![License](https://img.shields.io/packagist/l/innonazarene/prism-init)](...)
+
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
