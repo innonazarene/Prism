@@ -65,7 +65,7 @@
 composer require innonazarene/prism-init --dev
 ```
 
-Publish the config (optional but recommended):
+Publish the config (recommended):
 
 ```bash
 php artisan vendor:publish --tag=prism-init-config
