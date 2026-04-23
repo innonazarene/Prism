@@ -13,7 +13,7 @@ class PolicyGenerator extends BaseGenerator
             'ClassName' => $className,
         ]);
 
-        $dir  = app_path("Policies/{$className}");
+        $dir = app_path("Policies/{$className}");
         $path = "{$dir}/{$className}Policy.php";
         $this->write($path, $content, true);
         return $path;

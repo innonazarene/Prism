@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Policies;
+namespace {{ Namespace }};
 
-use App\Models\{{ ClassName }};
+use App\Models\{{ ClassName }}\{{ ClassName }};
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
