@@ -2,9 +2,9 @@
 
 [![CI](https://github.com/innonazarene/prism/actions/workflows/ci.yml/badge.svg)](https://github.com/innonazarene/prism/actions)
 [![Latest Version](https://img.shields.io/packagist/v/innonazarene/prism-init.svg)](https://packagist.org/packages/innonazarene/prism-init)
-[![PHP](https://img.shields.io/packagist/php-v/innonazarene/prism-init)](https://php.net)
-[![Laravel](https://img.shields.io/badge/Laravel-9--12-red)](https://laravel.com)
-[![License](https://img.shields.io/packagist/l/innonazarene/prism-init)](LICENSE)
+[![PHP](https://img.shields.io/badge/PHP-8.1+-777BB4)](https://php.net)
+[![Laravel](https://img.shields.io/badge/Laravel-9--12-FF2D20)](https://laravel.com)
+[![License](https://img.shields.io/github/license/innonazarene/prism)](https://github.com/innonazarene/prism/blob/main/LICENSE)
 
 **Prism Init** scaffolds a complete, convention-following backend API from your existing database in one command.
 Designed around the **HRMS Developer Guidelines** — but useful for any Laravel project.
