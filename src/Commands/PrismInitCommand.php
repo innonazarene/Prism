@@ -143,11 +143,19 @@ class PrismInitCommand extends Command
             ? collect(explode(',', $this->option('tables')))->map(fn($t) => trim($t))
             : null;
 
-        $dbName = config('database.connections.' . config('database.default') . '.database');
-        $raw = DB::select('SHOW TABLES');
+        $connection = config('database.default');
+        $driver = config("database.connections.{$connection}.driver");
 
-        return collect($raw)
-            ->pluck('Tables_in_' . $dbName)
+        if ($driver === 'sqlite') {
+            $raw = DB::select("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'");
+            $tables = collect($raw)->pluck('name');
+        } else {
+            $dbName = config("database.connections.{$connection}.database");
+            $raw = DB::select('SHOW TABLES');
+            $tables = collect($raw)->pluck('Tables_in_' . $dbName);
+        }
+
+        return $tables
             ->reject(fn($t) => in_array($t, config('prism-init.exclude_tables', ['migrations'])))
             ->when($only, fn($col) => $col->intersect($only))
             ->values();

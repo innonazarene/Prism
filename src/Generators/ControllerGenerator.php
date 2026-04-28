@@ -24,7 +24,7 @@ class ControllerGenerator extends BaseGenerator
             ? "App\\Http\\Resources\\{$className}"
             : "App\\Http\\Resources";
 
-        $serviceImport  = $withService  ? "\nuse App\\Services\\{$className}Service;"         : '';
+        $serviceImport  = $withService  ? "\nuse App\\Services\\{$className}\\{$className}Service;"         : '';
         $resourceImport = $withResource ? "\nuse {$resourceNs}\\{$className}Resource;" : '';
         $constructor    = $withService
             ? "\n    public function __construct(\n        private readonly {$className}Service \$service\n    ) {}\n"
