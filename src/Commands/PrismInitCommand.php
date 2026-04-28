@@ -130,7 +130,21 @@ class PrismInitCommand extends Command
         $this->line("    Scaffolded {$tables->count()} entit" . ($tables->count() === 1 ? 'y' : 'ies') . '.');
         $this->info('');
 
+        $this->info('Testing generated API endpoints...');
+        $this->testEndpoints($tables, $this->resolvePrefix());
+
         return self::SUCCESS;
+    }
+
+    private function testEndpoints(\Illuminate\Support\Collection $tables, string $prefix): void
+    {
+        $command = ['php', 'artisan', 'prism:test', '--prefix=' . $prefix, '--tables=' . $tables->implode(',')];
+        $process = new \Symfony\Component\Process\Process($command);
+        $process->setWorkingDirectory(base_path());
+        
+        $process->run(function ($type, $buffer) {
+            $this->output->write($buffer);
+        });
     }
 
     // ─────────────────────────────────────────────────────────────────────────

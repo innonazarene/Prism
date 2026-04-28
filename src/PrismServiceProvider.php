@@ -6,13 +6,17 @@ namespace Innonazarene\PrismInit;
 
 use Illuminate\Support\ServiceProvider;
 use Innonazarene\PrismInit\Commands\PrismInitCommand;
+use Innonazarene\PrismInit\Commands\PrismTestCommand;
 
 class PrismServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->commands([PrismInitCommand::class]);
+            $this->commands([
+                PrismInitCommand::class,
+                PrismTestCommand::class,
+            ]);
 
             $this->publishes([
                 __DIR__ . '/../config/prism-init.php' => config_path('prism-init.php'),
