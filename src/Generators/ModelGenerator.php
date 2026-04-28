@@ -12,6 +12,10 @@ class ModelGenerator extends BaseGenerator
     public function generate(string $className, string $table, bool $timestamps, bool $softDeletes): string
     {
         $columns = $this->getColumns($table);
+        
+        $hasDeletedAt = collect($columns)->contains('Field', 'deleted_at');
+        $softDeletes = $softDeletes && $hasDeletedAt;
+
         $fillable = $this->buildFillable($columns, $softDeletes, $timestamps);
         $casts = $this->buildCasts($columns, $softDeletes);
         $relationships = $this->buildRelationships($table, $className, $columns);
